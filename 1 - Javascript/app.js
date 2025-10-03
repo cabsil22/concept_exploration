@@ -45,6 +45,7 @@
                             dataBindingSourceElement = document.getElementById(dataBindingSourceID)
                             let outputElement = new OutputElement(parent, dataBindingSourceElement)
                             outputElements.push(outputElement)
+                            outputElement.render()
                         } catch (error) {
                             console.log(error)
                             console.log('Did you forget to give the output element a data-binding-source element?')
