@@ -3,24 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ToDo List</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 
     <!-- include our framework javascript -->
     <script src="outputTypes.js"></script>
     <script src="app.js"></script>
 </head>
 <body id="app">
+        <!-- I've included some extra 'junk' divs just to show the recursion is working -->
+        <div><div><div>
+            
+            <div class="container">
+                <p>
+                    My Javascript is more about the framework idea than this app, but the app is built to show how the framework works.
+                </p>
+                <div id="inputArea">
+                    <label for="myInput">Type Item Here</label>
+                    <input id="myInput" type="text" data-bind-type="text" placeholder="Type your todo text here.">
+                </div>
+                    <!-- I made this button out of a div to show that the framework can add click events to any type of element. -->
+                <div id="addTodoButton" data-bind-type="button" data-bind-method="addTodo">Click here to add ToDo the list</div>
 
-        <div><div><div><div>
-        <div id="div1" data-bind-type="button" data-bind-method="addTodo">Add ToDo</div>
-        <div id="div2">
-            <input id="myInput" type="text" data-bind-type="text">
-        </div>
-        <div data-bind-type="output" data-bind-source="myInput"></div>
-        <div>
-            <ul data-bind-type="boundList" data-bind-source="toDoItems"></ul>
-        </div>
-    </div></div></div></div>
+
+                
+                <section id="outputArea">
+                    <p>This section shows the output div element is update in realtime when typing. It is not important for the ToDo list app, but is showing the javascript framework I started.</p>
+                    <div id="outputDiv" data-bind-type="output" data-bind-source="myInput"></div>
+                </section>
+                <div id="toDoList">
+                    <ul data-bind-type="boundList" data-bind-source="toDoItems"></ul>
+                </div>
+
+
+
+            </div>
+
+    <!-- closing junk divs -->
+    </div></div></div>
 
     <script>
 
@@ -55,10 +75,13 @@
             todoList = getBoundArray('toDoItems');
             // get our input value (using the framework just makes this a smidge easier)
             todoText = getInputValue('myInput');
+
+            if (todoText != ""){
             // create a new todo item
             let newItem = new ToDoItem(todoText);
-            // add the item to the array
             todoList.push(newItem)
+            }
+            // add the item to the array
         }
 
         // we register the method which makes it available to the framework. 
