@@ -2,7 +2,7 @@
 
 Simple Hello world for CSE credits. 
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/g6gqfMkYi6A)
 
 # Development Environment
 

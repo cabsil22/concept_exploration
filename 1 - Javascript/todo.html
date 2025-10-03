@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- include our framework javascript -->
+    <script src="outputTypes.js"></script>
+    <script src="app.js"></script>
+</head>
+<body id="app">
+
+        <div><div><div><div>
+        <div id="div1" data-bind-type="button" data-bind-method="addTodo">Add ToDo</div>
+        <div id="div2">
+            <input id="myInput" type="text" data-bind-type="text">
+        </div>
+        <div data-bind-type="output" data-bind-source="myInput"></div>
+        <div>
+            <ul data-bind-type="boundList" data-bind-source="toDoItems"></ul>
+        </div>
+    </div></div></div></div>
+
+    <script>
+
+
+        // create a ToDo item class to represent the items we want to add to the list
+        // This could return any type of HTML item that make sense inside of a <li> 
+        // The framework would be made more robust in the future and allow us to work with more than <li> items. but for now
+        // the framework is returning the items from bound lists wrapped in an <li>
+        class ToDoItem {
+            constructor(text){
+                this.text = text;
+                return this.createItem()
+            }
+
+            createItem(){
+                let e = document.createElement('span');
+                e.setAttribute('data-bind-method', 'removeTodo')
+                e.setAttribute('data-bind-type', 'button')
+                registerElements(e)
+                e.textContent = this.text
+                return e
+            }
+
+
+        }
+        
+
+        // create methods for our app and register them with the 'framework'
+        // the methods need to accept the event parameter which contains the event that was fired. 
+        addTodo = (event) => {
+            // get our bound array from the framework
+            todoList = getBoundArray('toDoItems');
+            // get our input value (using the framework just makes this a smidge easier)
+            todoText = getInputValue('myInput');
+            // create a new todo item
+            let newItem = new ToDoItem(todoText);
+            // add the item to the array
+            todoList.push(newItem)
+        }
+
+        // we register the method which makes it available to the framework. 
+        // You then bind the elements in the dom to use it by using data-bind attributes
+        registerMethod('addTodo', addTodo);
+
+        removeTodo = (event) => {
+            // get our bound array from the framework
+            todoList = getBoundArray('toDoItems');
+            // remove the item from the array which since the list is bound to the data of the array, the list is updated
+            // automatically
+            todoList.removeItem(todoList.indexOf(event.target))
+        }
+        registerMethod('removeTodo', removeTodo)
+
+
+        //starting the app causes the framework to register the html elements with data-bind- attributes 
+        startApp('app');
+    </script>
+</body>
+</html>
