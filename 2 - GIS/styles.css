@@ -1,0 +1,83 @@
+  #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      #toolbox {
+        position: absolute;
+        left: 5%;
+        top: 94.9%;
+        background-color: white;
+        min-height: 5%;
+        overflow: hidden;
+        width: 90%;
+        border-radius: 20px 20px 0px 0px;
+        
+        transition: all 500ms ease-in-out;
+      }
+
+      #toolbox-header {
+        display: flex;
+        justify-content: center;
+        padding-top:2px;
+        background-color: lightgray;
+      }
+
+      #toolbox-handle {
+        border-radius: 5px;
+        border: 0;
+        padding: .25em .5em;
+        background-color: grey;
+        color: white;
+        min-width: 3em;
+      }
+
+      #toolbox-body {
+        padding-left: 2em;
+        padding-right: 2em;
+        padding-top: .25em;
+        overflow-y: scroll;
+        max-height: 80%;
+        -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        scrollbar-width: none;  
+      }
+
+      #toolbox-body ul {
+        display:flex;
+          gap: 1em;
+        flex-direction: row;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+
+      }
+
+      #toolbox-body ul li {
+        padding: 20px;
+        border:solid;
+        max-width: 30%;
+
+        flex-grow: 1;
+        width: calc(100% * (1/4) - 10px - 1px);
+
+
+      }
+
+      #shapeList {
+        display: none;
+      }
+
+            /* make the body and the map fullscreen (for now) */
+
+      #map {
+        height: 100%;
+        cursor: pointer;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
