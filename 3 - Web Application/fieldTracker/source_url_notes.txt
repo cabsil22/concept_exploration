@@ -1,0 +1,6 @@
+https://www.django-rest-framework.org/
+https://www.django-rest-framework.org/tutorial/quickstart/
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
+https://www.geeksforgeeks.org/python/overriding-the-save-method-django-models/
+https://docs.djangoproject.com/en/5.2/topics/class-based-views/
+https://docs.djangoproject.com/en/5.2/topics/http/urls/

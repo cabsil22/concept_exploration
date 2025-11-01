@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Field Map Interface</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      /* make the body and the map fullscreen (for now) */
+
+      #map {
+        height: 100%;
+        cursor: pointer;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+
+
+
+    <style>
+      #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      #toolbox {
+        position: absolute;
+        left: 5%;
+        top: 94.9%;
+        background-color: white;
+        min-height: 5%;
+        overflow: hidden;
+        width: 90%;
+        border-radius: 20px 20px 0px 0px;
+
+        transition: all 500ms ease-in-out;
+      }
+
+      #toolbox-body button {
+          margin: 10px;
+      }
+
+      #toolbox-header {
+        display: flex;
+        justify-content: center;
+        padding-top:2px;
+        background-color: lightgray;
+      }
+
+      #toolbox-handle {
+        border-radius: 5px;
+        border: 0;
+        padding: .25em .5em;
+        background-color: grey;
+        color: white;
+        min-width: 3em;
+      }
+
+      #toolbox-body {
+        padding-left: 2em;
+        padding-right: 2em;
+        padding-top: .25em;
+        overflow-y: scroll;
+        max-height: 80%;
+        -ms-overflow-style: none;  /* Internet Explorer 10+ */
+        scrollbar-width: none;
+      }
+
+      #toolbox-body ul {
+        display:flex;
+          gap: 1em;
+        flex-direction: row;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+
+      }
+
+      #toolbox-body ul li {
+        padding: 20px;
+        border:solid;
+        max-width: 30%;
+
+        flex-grow: 1;
+        width: calc(100% * (1/4) - 10px - 1px);
+
+
+      }
+
+      #shapeList {
+        display: none;
+      }
+
+      .editButton {
+          display: none;
+      }
+
+      nav ul li {
+          display: inline-block;
+          padding-left: 2em;
+          text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+  <nav>
+      <ul>
+          <li><a href="/fields">Fields</a></li>
+          <li><a href="/admin/">Admin</a></li>
+      </ul>
+  </nav>
+  <input id="csrf_token" type="hidden" name="csrf_token" value="{{ csrf_token }}">    <div id="map"></div>
+    <div id="toolbox" data-display="collapsed">
+      <div id="toolbox-header">
+        <button id="toolbox-handle" onclick="showToolBox()">----</button>
+      </div>
+      <div id="toolbox-body">
+          <button id="toggleEdit">Edit</button>
+        <button id="addField" class="editButton">Save Last Pin as Field</button>
+        <button id="add" class="editButton">Save last shape</button>
+        <button id="createShape" class="editButton">Convert Markers to Shape</button>
+        <button id="trackGPS">Test Phone GPS</button>
+        <button id="stopGPS">Stop Phone GPS</button>
+          <input id="shapeHideZoom" name="shapeHideZoom" type="radio" value="14">
+          <label for="shapeHideZoom">14</label>
+          <input id="showFields" type="checkbox" name="showFields" autocomplete="off" checked>
+          <label for="showFields">Show Fields</label>
+          <input type="checkbox" name="showShapes" autocomplete="off" checked id="showShapes">
+          <label for="showShapes">Show Divisions</label>
+          <div>
+
+              <select name="field_id" id="field_id_select" autocomplete="off">
+                   <option value="">Select a Field</option>
+                   {% for field in fields %}
+                       <option {% if selected_field == field.id %} selected{% endif %} value="{{ field.id }}">{{ field }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+        <div id="lastPosition"></div>
+      <div>
+        <ul id="shapeList"></ul>
+      </div>
+
+      </div>
+        {{ initial_coordinates|json_script:"initialCoords" }}
+        <script src="{% static 'js/map.js' %}" type="module"></script>
+
+      <script>
+        function showToolBox() {
+          toolbox = document.getElementById("toolbox");
+          if (toolbox.getAttribute('data-display') == 'collapsed'){
+            toolbox.setAttribute('data-display', "extended")
+            toolbox.style.top = "65%";
+            toolbox.style.height = "35%";
+            shapeList = document.getElementById('shapeList');
+            shapeList.style.display = "flex";
+          } else {
+          toolbox.setAttribute('data-display', "collapsed")
+          toolbox.style.top = "95%";
+          toolbox.style.height = "5%";
+          shapeList = document.getElementById('shapeList');
+          shapeList.style.display = "none";
+          }
+        }
+
+      </script>
+    </div>
+    <div id="overlay"></div>
+    <!-- prettier-ignore -->
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "{{ maps_api_key }}", v: "weekly"});</script>
+  </body>
+</html>

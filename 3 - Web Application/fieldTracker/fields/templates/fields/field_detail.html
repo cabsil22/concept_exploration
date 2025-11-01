@@ -1,0 +1,53 @@
+<main>
+    <h1>
+        {{ field }}
+    </h1>
+    <p>
+        <a href="/?center={{ field.latitude }},{{ field.longitude }}&field_id={{ field.id }}">
+        Lat: {{ field.latitude }} - Long: {{ field.longitude }}
+            </a>
+    </p>
+</main>
+<aside>
+    <h3>Divisions</h3>
+    <section>
+        {% for division in field.fielddivision_set.all %}
+            <div class="field-division">
+                <h5>
+                    {{ division }}
+                </h5>
+                <a href="/admin/fields/fielddivision/{{ division.id }}/change/">
+                    edit
+                </a>
+            </div>
+        {% endfor %}
+    </section>
+</aside>
+
+
+<style>
+    main {
+        text-align: center;
+        justify-content: center;
+    }
+
+    aside h3 {
+        text-align: center;
+    }
+
+    aside section {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .field-division {
+        border-width: 2px;
+        border: solid;
+        padding: 25px;
+        border-radius: 20px;
+        text-align: center;
+
+    }
+</style>
