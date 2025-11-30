@@ -2,7 +2,7 @@
 
 This is my first dive into Android apps.  I focused on learning Kotlin, Jetpack Compose, MVVM Architecture, Room, and Flows. The app is simple and is only storing a few items in a DB, but the project was about learning the basics of the mentioned technologies and architecture so that I would have a foundation for later. 
 
-[Software Demo Video](http://youtube.link.goes.here)
+[Software Demo Video](https://youtu.be/IRl82GEiLRk)
 
 # Development Environment
 
